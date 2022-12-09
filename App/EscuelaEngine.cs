@@ -5,7 +5,7 @@ using CoreEscuela.Entidades;
 
 namespace CoreEscuela
 {
-    public class EscuelaEngine
+    public sealed class EscuelaEngine
     {
         public Escuela Escuela { get; set; }
 
@@ -16,7 +16,7 @@ namespace CoreEscuela
 
         public void Inicializar()
         {
-            Escuela = new Escuela("Platzi Academay", 2012, TiposEscuela.Primaria,
+            Escuela = new Escuela("Platzi Academy", 2012, TiposEscuela.Primaria,
             ciudad: "Bogotá", pais: "Colombia"
             );
 
@@ -26,31 +26,27 @@ namespace CoreEscuela
 
         }
 
-        private void CargarEvaluaciones()
+        public List<ObjectSchoolBase> GetObjectosEscuela()
         {
+            var listaObj = new List<ObjectSchoolBase>();
+            listaObj.Add(Escuela);
+            listaObj.AddRange(Escuela.Cursos);
+
             foreach (var curso in Escuela.Cursos)
             {
-                foreach (var asignatura in curso.Asignaturas)
+                listaObj.AddRange(curso.Asignaturas);
+                listaObj.AddRange(curso.Alumnos);
+
+                foreach (var alumno in curso.Alumnos)
                 {
-                    foreach (var alumno in curso.Alumnos)
-                    {
-                        var rnd = new Random(System.Environment.TickCount);
-                        for (int i = 0; i < 5; i++)
-                        {
-                            var evaluacion = new Evaluacion
-                            {
-                                Asignatura = asignatura,
-                                Nombre = $"{asignatura.Nombre} Ev#{i + 1}",
-                                Nota = (float)(rnd.NextDouble() * 5),
-                                Alumno = alumno                            
-                            };
-                            alumno.evaluaciones.Add(evaluacion);
-                        }
-                    }
+                    listaObj.AddRange(alumno.evaluaciones);
                 }
             }
+
+            return listaObj;
         }
 
+#region Metodos de carga
         private void CargarAsignaturas()
         {
             foreach (var curso in Escuela.Cursos)
@@ -96,5 +92,31 @@ namespace CoreEscuela
                 c.Alumnos = GenerarAlumnosAlAzar(cantRandom);
             }
         }
+
+        private void CargarEvaluaciones()
+        {
+            foreach (var curso in Escuela.Cursos)
+            {
+                foreach (var asignatura in curso.Asignaturas)
+                {
+                    foreach (var alumno in curso.Alumnos)
+                    {
+                        var rnd = new Random(System.Environment.TickCount);
+                        for (int i = 0; i < 5; i++)
+                        {
+                            var evaluacion = new Evaluacion
+                            {
+                                Asignatura = asignatura,
+                                Nombre = $"{asignatura.Nombre} Ev#{i + 1}",
+                                Nota = (float)(rnd.NextDouble() * 5),
+                                Alumno = alumno                            
+                            };
+                            alumno.evaluaciones.Add(evaluacion);
+                        }
+                    }
+                }
+            }
+        }
+#endregion Metodos de carga
     }
 }
