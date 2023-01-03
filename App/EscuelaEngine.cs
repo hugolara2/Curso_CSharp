@@ -26,7 +26,15 @@ namespace CoreEscuela
 
         }
 
-        //public Dictionary<int, string>
+        public Dictionary<string, IEnumerable<ObjectSchoolBase>> GetObjectDictionary()
+        {
+            var dictionary = new Dictionary<string,IEnumerable<ObjectSchoolBase>>();
+
+            dictionary.Add("Escuela", new[] {Escuela});
+            dictionary.Add("Curso", Escuela.Cursos.Cast<ObjectSchoolBase>());
+
+            return dictionary;
+        }
 
         public IReadOnlyList<ObjectSchoolBase> GetObjectosEscuela(
             bool traeEvaluaciones = true,
