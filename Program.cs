@@ -17,11 +17,16 @@ namespace CoreEscuela
             ImpimirCursosEscuela(engine.Escuela);
             var listaObjetos = engine.GetObjectosEscuela();
 
-            engine.Escuela.LimpiarLugar();
+            Dictionary<int, string> diccionario = new Dictionary<int, string>();
 
-            var listaILugar = from obj in listaObjetos
-                            where obj is ILugar
-                            select (ILugar)obj;
+            diccionario.Add(1, "Ipso lorem");
+            diccionario.Add(2, "Hugo Lara");
+            diccionario.Add(3, "Karen Ruiz");
+
+            foreach (var keyValPair in diccionario)
+            {
+                Console.WriteLine($"Key: {keyValPair.Key} Value: {keyValPair.Value}");
+            }
         }
 
         private static void ImpimirCursosEscuela(Escuela escuela)
