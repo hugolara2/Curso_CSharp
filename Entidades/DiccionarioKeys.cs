@@ -3,7 +3,8 @@ public enum DictionaryKeys
     Curso,
     Alumno,
     Escuela,
-    Asignatura
+    Asignatura,
+    Evaluacion
 }
 
 // public struct DictionaryKeys 

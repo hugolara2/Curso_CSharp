@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CoreEscuela.Entidades;
+using CoreEscuela.Util;
 
 namespace CoreEscuela
 {
@@ -26,13 +27,41 @@ namespace CoreEscuela
 
         }
 
+        public void PrintDictionary(Dictionary<DictionaryKeys,IEnumerable<ObjectSchoolBase>> dictionary)
+        {
+            foreach(var obj in dictionary)
+            {
+                Printer.WriteTitle(obj.Key.ToString());
+                foreach(var val in obj.Value)
+                {
+                    Console.WriteLine(val);
+                }
+            }
+        }
         public Dictionary<DictionaryKeys, IEnumerable<ObjectSchoolBase>> GetObjectDictionary()
         {
 
             var dictionary = new Dictionary<DictionaryKeys,IEnumerable<ObjectSchoolBase>>();
 
             dictionary.Add(DictionaryKeys.Escuela, new[] {Escuela});
-            dictionary.Add(DictionaryKeys.Curso, Escuela.Cursos.Cast<ObjectSchoolBase>());
+            dictionary.Add(DictionaryKeys.Curso, Escuela.Cursos);
+            
+            var listaTempEvaluciones = new List<Evaluacion>();
+            var listaTempAlumnos = new List<Alumno>();
+            var listaTempAsignaturas = new List<Asignatura>();
+
+            foreach(var curso in Escuela.Cursos)
+            {
+                listaTempAsignaturas.AddRange(curso.Asignaturas);
+                listaTempAlumnos.AddRange(curso.Alumnos);
+                listaTempAlumnos.ForEach(al => 
+                    listaTempEvaluciones.AddRange(al.Evaluaciones));
+                
+            }
+            
+            dictionary.Add(DictionaryKeys.Asignatura, listaTempAsignaturas);
+            dictionary.Add(DictionaryKeys.Alumno, listaTempAlumnos);
+            dictionary.Add(DictionaryKeys.Evaluacion, listaTempEvaluciones);
 
             return dictionary;
         }
@@ -113,8 +142,8 @@ namespace CoreEscuela
                 {
                     foreach (var alumno in curso.Alumnos)
                     {   
-                        listaObj.AddRange(alumno.evaluaciones);
-                        conteoEvaluaciones += alumno.evaluaciones.Count;
+                        listaObj.AddRange(alumno.Evaluaciones);
+                        conteoEvaluaciones += alumno.Evaluaciones.Count;
                     }
                 }
             }
@@ -135,7 +164,7 @@ namespace CoreEscuela
 
         //         foreach (var alumno in curso.Alumnos)
         //         {
-        //             listaObj.AddRange(alumno.evaluaciones);
+        //             listaObj.AddRange(alumno.Evaluaciones);
         //         }
         //     }
 
@@ -207,7 +236,7 @@ namespace CoreEscuela
                                 Nota = (float)(rnd.NextDouble() * 5),
                                 Alumno = alumno                            
                             };
-                            alumno.evaluaciones.Add(evaluacion);
+                            alumno.Evaluaciones.Add(evaluacion);
                         }
                     }
                 }

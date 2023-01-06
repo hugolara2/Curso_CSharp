@@ -5,10 +5,10 @@ namespace CoreEscuela.Entidades
 {
     public class Alumno : ObjectSchoolBase
     {
-        public List<Evaluacion> evaluaciones{ get; set; }
+        public List<Evaluacion> Evaluaciones{ get; set; }
         public Alumno()
         {
-            evaluaciones = new List<Evaluacion>();
+            Evaluaciones = new List<Evaluacion>();
         }
     }
 }
