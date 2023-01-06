@@ -26,12 +26,13 @@ namespace CoreEscuela
 
         }
 
-        public Dictionary<string, IEnumerable<ObjectSchoolBase>> GetObjectDictionary()
+        public Dictionary<DictionaryKeys, IEnumerable<ObjectSchoolBase>> GetObjectDictionary()
         {
-            var dictionary = new Dictionary<string,IEnumerable<ObjectSchoolBase>>();
 
-            dictionary.Add("Escuela", new[] {Escuela});
-            dictionary.Add("Curso", Escuela.Cursos.Cast<ObjectSchoolBase>());
+            var dictionary = new Dictionary<DictionaryKeys,IEnumerable<ObjectSchoolBase>>();
+
+            dictionary.Add(DictionaryKeys.Escuela, new[] {Escuela});
+            dictionary.Add(DictionaryKeys.Curso, Escuela.Cursos.Cast<ObjectSchoolBase>());
 
             return dictionary;
         }
