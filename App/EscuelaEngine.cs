@@ -30,23 +30,39 @@ namespace CoreEscuela
         public void PrintDictionary(Dictionary<DictionaryKeys,IEnumerable<ObjectSchoolBase>> dictionary,
                                     bool printEval = false)
         {
-            foreach(var obj in dictionary)
+            foreach(var objDic in dictionary)
             {
-                Printer.WriteTitle(obj.Key.ToString());
-                foreach(var val in obj.Value)
+                Printer.WriteTitle(objDic.Key.ToString());
+                foreach(var val in objDic.Value)
                 {
-                    if(val is Evaluacion){
-                        if(printEval)
-                            Console.WriteLine(val);
-                    } else if(val is Escuela){
-                        Console.WriteLine(Escuela.Nombre);
-                    } else if(val is Alumno){
-                        Console.WriteLine(val.Nombre);
-                    } else if(val is Asignatura) {
-                        Console.WriteLine(val.Nombre);
-                    } else if(val is Curso) {
-                        Console.WriteLine(val.Nombre);
+
+                    switch(objDic.Key) {
+                        case DictionaryKeys.Evaluacion:
+                            if(printEval)
+                                Console.WriteLine(val);
+                        break;
+                        case DictionaryKeys.Escuela:
+                            Console.WriteLine(Escuela.Nombre);
+                        break;
+                        case DictionaryKeys.Alumno:
+                            Console.WriteLine(val.Nombre);
+                        break;
+                        case DictionaryKeys.Asignatura:
+                            Console.WriteLine(val.Nombre);
+                        break;
+                        case DictionaryKeys.Curso:
+                            var cursoTemp = val as Curso;
+                            if(cursoTemp != null){
+                                int count = cursoTemp.Alumnos.Count;
+                                Console.WriteLine($"Curso: {val.Nombre} Cantidad de alumnos: {count}");
+                            }
+                            
+                        break;
+                        default:
+                            Console.WriteLine(val.Nombre);
+                        break;
                     }
+
                 }
             }
         }
