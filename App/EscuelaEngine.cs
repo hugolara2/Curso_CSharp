@@ -27,14 +27,26 @@ namespace CoreEscuela
 
         }
 
-        public void PrintDictionary(Dictionary<DictionaryKeys,IEnumerable<ObjectSchoolBase>> dictionary)
+        public void PrintDictionary(Dictionary<DictionaryKeys,IEnumerable<ObjectSchoolBase>> dictionary,
+                                    bool printEval = false)
         {
             foreach(var obj in dictionary)
             {
                 Printer.WriteTitle(obj.Key.ToString());
                 foreach(var val in obj.Value)
                 {
-                    Console.WriteLine(val);
+                    if(val is Evaluacion){
+                        if(printEval)
+                            Console.WriteLine(val);
+                    } else if(val is Escuela){
+                        Console.WriteLine(Escuela.Nombre);
+                    } else if(val is Alumno){
+                        Console.WriteLine(val.Nombre);
+                    } else if(val is Asignatura) {
+                        Console.WriteLine(val.Nombre);
+                    } else if(val is Curso) {
+                        Console.WriteLine(val.Nombre);
+                    }
                 }
             }
         }
