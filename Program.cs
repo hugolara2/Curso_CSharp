@@ -36,6 +36,7 @@ namespace CoreEscuela
         {
             
             Printer.WriteTitle("Cursos de la Escuela");
+            Console.WriteLine("Some little changes");
             
             
             if (escuela?.Cursos != null)
